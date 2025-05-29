@@ -16,10 +16,10 @@ type TestConfig struct {
 	} `yaml:"log" json:"log"`
 }
 
-func TestNew(t *testing.T) {
+func TestLoad(t *testing.T) {
 	var c TestConfig
 
-	config, err := New("./testdata/config.yaml")
+	config, err := Load("./testdata/config.yaml")
 
 	assert.NoError(t, err)
 	assert.NotNil(t, config)

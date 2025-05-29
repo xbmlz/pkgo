@@ -11,7 +11,7 @@ type Config struct {
 	*viper.Viper
 }
 
-func New(configFile string) (c *Config, err error) {
+func Load(configFile string) (c *Config, err error) {
 	var stat os.FileInfo
 
 	stat, err = os.Stat(configFile)
@@ -32,4 +32,19 @@ func New(configFile string) (c *Config, err error) {
 	}
 
 	return &Config{p}, nil
+}
+
+func (c *Config) MustParse(v any) {
+	err := c.Unmarshal(v)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func MustLoad(configFile string) *Config {
+	c, err := Load(configFile)
+	if err != nil {
+		panic(err)
+	}
+	return c
 }
