@@ -25,14 +25,6 @@ func ResponseOk(c *gin.Context, data any) {
 	})
 }
 
-func ResponseOkWithMsg(c *gin.Context, msg string) {
-	c.JSON(http.StatusOK, Response{
-		Code: SuccessCode,
-		Msg:  msg,
-		Data: nil,
-	})
-}
-
 func ResponseError(c *gin.Context, msg string) {
 	c.JSON(http.StatusOK, Response{
 		Code: ErrorCode,
@@ -41,10 +33,10 @@ func ResponseError(c *gin.Context, msg string) {
 	})
 }
 
-func ResponseErrorWithCode(c *gin.Context, code int, msg string) {
+func ResponseCustom(c *gin.Context, code int, msg string, data any) {
 	c.JSON(http.StatusOK, Response{
 		Code: code,
 		Msg:  msg,
-		Data: nil,
+		Data: data,
 	})
 }

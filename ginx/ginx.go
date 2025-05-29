@@ -15,12 +15,12 @@ func New() *gin.Engine {
 	r := gin.New()
 	r.Use(ginzap.Ginzap(log.GetLogger(), time.DateTime, true))
 	r.Use(ginzap.CustomRecoveryWithZap(log.GetLogger(), true, func(c *gin.Context, err any) {
-		ResponseErrorWithCode(c, http.StatusInternalServerError, "Internal Server Error")
+		ResponseCustom(c, http.StatusInternalServerError, "Internal Server Error", nil)
 	}))
 	r.Use(static.ServeRoot("/static", "./static"))
 
 	r.NoRoute(func(ctx *gin.Context) {
-		ResponseErrorWithCode(ctx, http.StatusNotFound, "Not Found")
+		ResponseCustom(ctx, http.StatusNotFound, "Not Found", nil)
 	})
 	return r
 }

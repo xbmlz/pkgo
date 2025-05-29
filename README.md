@@ -45,8 +45,7 @@ func main() {
 
 	// start server
 	addr := fmt.Sprintf("%s:%d", c.Server.Host, c.Server.Port)
-	srv := server.NewHTTPServer(r, addr)
-	srv.Run()
+	log.Infof("Server start at %s", addr)
+	server.NewHTTPServer(r, addr).Run()
 }
-
 ```
