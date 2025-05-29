@@ -9,7 +9,7 @@ var (
 
 type Config struct {
 	Level      string
-	FileName   string
+	File       string
 	Encoder    string
 	MaxSize    int
 	MaxBackups int
@@ -25,7 +25,7 @@ func InitLogger(opts ...Option) {
 	l := &logger{
 		config: Config{
 			Level:      "info",
-			FileName:   "",
+			File:       "",
 			Encoder:    "console",
 			MaxSize:    10,
 			MaxBackups: 3,

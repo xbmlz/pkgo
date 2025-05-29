@@ -4,3 +4,4 @@ server:
 
 log:
   level: debug
+  file: app.log

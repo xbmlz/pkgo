@@ -8,8 +8,8 @@ func WithLevel(level string) Option {
 	}
 }
 
-func WithFileName(filename string) Option {
+func WithFile(File string) Option {
 	return func(l *logger) {
-		l.config.FileName = filename
+		l.config.File = File
 	}
 }

@@ -32,7 +32,6 @@ func (s *HTTPServer) Run() {
 			log.Fatalf("Failed to start server: %v", err)
 		}
 	}()
-	// 等待中断信号以优雅地关闭服务器（设置 5 秒的超时时间）
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit

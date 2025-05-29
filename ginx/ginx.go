@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/gzip"
 	"github.com/gin-contrib/static"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,7 @@ func New() *gin.Engine {
 		ResponseCustom(c, http.StatusInternalServerError, "Internal Server Error", nil)
 	}))
 	r.Use(static.ServeRoot("/static", "./static"))
+	r.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	r.NoRoute(func(ctx *gin.Context) {
 		ResponseCustom(ctx, http.StatusNotFound, "Not Found", nil)

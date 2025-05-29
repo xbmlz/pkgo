@@ -12,6 +12,7 @@ import (
 type Config struct {
 	Log struct {
 		Level string `json:"level" yaml:"level"`
+		File  string `json:"file" yaml:"file"`
 	} `json:"log" yaml:"log"`
 	Server struct {
 		Host string `json:"host" yaml:"host"`
@@ -25,7 +26,10 @@ func main() {
 	config.MustLoad("config.yaml").MustParse(&c)
 
 	// Init logger
-	log.InitLogger()
+	log.InitLogger(
+		log.WithLevel(c.Log.Level),
+		log.WithFile(c.Log.File),
+	)
 
 	// create gin router
 	r := ginx.New()
