@@ -22,8 +22,11 @@ type Config struct {
 
 func main() {
 	// Load config
-	var c Config
-	config.MustLoad("config.yaml").MustParse(&c)
+	cfg := &Config{}
+	err := config.MustLoad("config.yaml").Parse(cfg)
+	if err != nil {
+		panic(err)
+	}
 
 	// Init logger
 	log.InitLogger(

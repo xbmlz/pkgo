@@ -1,9 +1,6 @@
 package config
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/spf13/viper"
 )
 
@@ -12,17 +9,6 @@ type Config struct {
 }
 
 func Load(configFile string) (c *Config, err error) {
-	var stat os.FileInfo
-
-	stat, err = os.Stat(configFile)
-	if err != nil {
-		return
-	}
-
-	if !stat.Mode().IsRegular() {
-		return nil, fmt.Errorf("%s is not a regular file", configFile)
-	}
-
 	p := viper.New()
 	p.SetConfigFile(configFile)
 
@@ -34,11 +20,8 @@ func Load(configFile string) (c *Config, err error) {
 	return &Config{p}, nil
 }
 
-func (c *Config) MustParse(v any) {
-	err := c.Unmarshal(v)
-	if err != nil {
-		panic(err)
-	}
+func (c *Config) Parse(v any) error {
+	return c.Viper.Unmarshal(v)
 }
 
 func MustLoad(configFile string) *Config {
