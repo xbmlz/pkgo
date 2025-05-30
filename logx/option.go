@@ -1,4 +1,4 @@
-package log
+package logx
 
 type Option func(*logger)
 

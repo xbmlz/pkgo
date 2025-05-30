@@ -1,0 +1,5 @@
+2025-05-30 15:20:31	INFO	_example/main.go:44	Server start at %s0.0.0.0:8080
+2025-05-30 15:21:35	INFO	_example/main.go:50	Server start at %s0.0.0.0:8080
+2025-05-30 15:22:00	INFO	_example/main.go:45	cron job run
+2025-05-30 15:23:00	INFO	_example/main.go:45	cron job run
+2025-05-30 16:00:06	INFO	_example/main.go:50	Server start at 0.0.0.0:8080
