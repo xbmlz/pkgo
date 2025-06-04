@@ -3,3 +3,5 @@
 2025-05-30 15:22:00	INFO	_example/main.go:45	cron job run
 2025-05-30 15:23:00	INFO	_example/main.go:45	cron job run
 2025-05-30 16:00:06	INFO	_example/main.go:50	Server start at 0.0.0.0:8080
+2025-06-04 20:14:23	INFO	_example/main.go:42	Server start at 0.0.0.0:8080
+2025-06-04 20:14:24	INFO	server/http.go:37	Shutting down server...

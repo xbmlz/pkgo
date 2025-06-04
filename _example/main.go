@@ -3,12 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/xbmlz/pkgo/confx"
-	"github.com/xbmlz/pkgo/cronx"
+	"github.com/xbmlz/pkgo/conf"
 	"github.com/xbmlz/pkgo/ginx"
-	"github.com/xbmlz/pkgo/logx"
-	"github.com/xbmlz/pkgo/srvx"
-	"github.com/xbmlz/pkgo/srvx/httpx"
+	"github.com/xbmlz/pkgo/log"
+	"github.com/xbmlz/pkgo/server"
 )
 
 type Config struct {
@@ -25,32 +23,23 @@ type Config struct {
 func main() {
 	// Load config
 	cfg := &Config{}
-	err := confx.MustLoad("config.yaml").Parse(cfg)
+	err := conf.MustLoad("config.yaml").Parse(cfg)
 	if err != nil {
 		panic(err)
 	}
 
 	// Init logger
-	logx.InitLogger(
-		logx.WithLevel(cfg.Log.Level),
-		logx.WithFile(cfg.Log.File),
+	log.InitLogger(
+		log.WithLevel(cfg.Log.Level),
+		log.WithFile(cfg.Log.File),
 	)
 
 	// create gin router
 	r := ginx.New()
 
-	// create cron job
-	c := cronx.New()
-	c.AddFunc("*/1 * * * *", func() {
-		logx.Info("cron job run")
-	})
-
 	// start server
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
-	logx.Infof("Server start at %s", addr)
-	srv := srvx.New(
-		httpx.New(addr, r),
-		c,
-	)
+	log.Infof("Server start at %s", addr)
+	srv := server.NewHTTPServer(addr, r)
 	srv.Run()
 }
