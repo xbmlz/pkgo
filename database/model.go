@@ -1,4 +1,4 @@
-package gormx
+package database
 
 type Order struct {
 	Column string `json:"column" form:"column" binding:"required"`

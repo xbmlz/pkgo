@@ -2,35 +2,35 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
 	"github.com/xbmlz/pkgo/log"
+	"github.com/xbmlz/pkgo/utils"
 )
 
-type HTTPServer struct {
-	srv *http.Server
+type Config struct {
+	Host        string `yaml:"host" json:"host" mapstructure:"host" env:"HTTP_HOST"`
+	Port        int    `yaml:"port" json:"port" mapstructure:"port" env:"HTTP_PORT"`
+	ReadTimeout int    `yaml:"read_timeout" json:"read_timeout" mapstructure:"read_timeout" env:"HTTP_READ_TIMEOUT"`
 }
 
-func NewHTTPServer(addr string, handler http.Handler) *HTTPServer {
-	return &HTTPServer{
-		srv: &http.Server{
-			Addr:    addr,
-			Handler: handler,
-		},
+func Run(cfg Config, handler http.Handler) {
+	addr := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
+	srv := &http.Server{
+		Addr:        addr,
+		Handler:     handler,
+		ReadTimeout: time.Duration(utils.OrElse(cfg.ReadTimeout, 5)) * time.Second,
 	}
-}
-
-func (hs *HTTPServer) Run() {
 	go func() {
-		if err := hs.srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
 		}
 	}()
 
-	// 等待中断信号以优雅地关闭服务器（设置 5 秒的超时时间）
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
@@ -38,7 +38,7 @@ func (hs *HTTPServer) Run() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	if err := hs.srv.Shutdown(ctx); err != nil {
+	if err := srv.Shutdown(ctx); err != nil {
 		log.Fatal("Server Shutdown:", err)
 	}
 }

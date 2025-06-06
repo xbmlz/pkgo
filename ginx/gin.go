@@ -1,4 +1,4 @@
-package ginx
+package router
 
 import (
 	"net/http"

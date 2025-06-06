@@ -4,30 +4,37 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Config struct {
-	*viper.Viper
+type option struct {
+	configFile string
 }
 
-func Load(configFile string) (c *Config, err error) {
+type OptionFunc func(*option)
+
+func WithConfigFile(configFile string) OptionFunc {
+	return func(o *option) {
+		o.configFile = configFile
+	}
+}
+
+func Load(v any, opts ...OptionFunc) error {
+	opt := option{
+		configFile: "config.yaml",
+	}
+
+	for _, o := range opts {
+		o(&opt)
+	}
+
 	p := viper.New()
-	p.SetConfigFile(configFile)
+	p.SetConfigFile(opt.configFile)
 
-	err = p.ReadInConfig()
-	if err != nil {
-		return
+	if err := p.ReadInConfig(); err != nil {
+		return err
 	}
 
-	return &Config{p}, nil
-}
-
-func (c *Config) Parse(v any) error {
-	return c.Viper.Unmarshal(v)
-}
-
-func MustLoad(configFile string) *Config {
-	c, err := Load(configFile)
-	if err != nil {
-		panic(err)
+	if err := p.Unmarshal(v); err != nil {
+		return err
 	}
-	return c
+
+	return nil
 }

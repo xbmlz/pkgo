@@ -1,23 +1,23 @@
-package ginx
+package router
 
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 )
 
-func GetQuery[T any](c *gin.Context, key string) T {
+func GetQuery[T comparable](c *gin.Context, key string) T {
 	return convert[T](c.Query(key))
 }
 
-func GetParam[T any](c *gin.Context, key string) T {
+func GetParam[T comparable](c *gin.Context, key string) T {
 	return convert[T](c.Param(key))
 }
 
-func GetForm[T any](c *gin.Context, key string) T {
+func GetForm[T comparable](c *gin.Context, key string) T {
 	return convert[T](c.PostForm(key))
 }
 
-func convert[T any](value string) T {
+func convert[T comparable](value string) T {
 	var target T
 
 	switch any(target).(type) {
