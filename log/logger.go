@@ -51,42 +51,22 @@ func GetSugaredLogger() *zap.SugaredLogger {
 	return globalSugaredLogger
 }
 
-func Debug(args ...any) {
-	globalSugaredLogger.Debug(args...)
-}
-
-func Debugf(format string, args ...any) {
+func Debug(format string, args ...any) {
 	globalSugaredLogger.Debugf(format, args...)
 }
 
-func Info(args ...any) {
-	globalSugaredLogger.Info(args...)
-}
-
-func Infof(format string, args ...any) {
+func Info(format string, args ...any) {
 	globalSugaredLogger.Infof(format, args...)
 }
 
-func Warn(args ...any) {
-	globalSugaredLogger.Warn(args...)
-}
-
-func Warnf(format string, args ...any) {
+func Warn(format string, args ...any) {
 	globalSugaredLogger.Warnf(format, args...)
 }
 
-func Error(args ...any) {
-	globalSugaredLogger.Error(args...)
-}
-
-func Errorf(format string, args ...any) {
+func Error(format string, args ...any) {
 	globalSugaredLogger.Errorf(format, args...)
 }
 
-func Fatal(args ...any) {
-	globalSugaredLogger.Fatal(args...)
-}
-
-func Fatalf(format string, args ...any) {
+func Fatal(format string, args ...any) {
 	globalSugaredLogger.Fatalf(format, args...)
 }

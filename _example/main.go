@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 
+	"github.com/gin-gonic/gin"
 	"github.com/xbmlz/pkgo/conf"
+	"github.com/xbmlz/pkgo/ginx"
 	"github.com/xbmlz/pkgo/server"
 	"github.com/xbmlz/pkgo/utils"
 )
@@ -22,11 +24,11 @@ func main() {
 
 	fmt.Println(utils.OrElse(cfg.Server.ReadTimeout, 10))
 
-	// r := ginx.New()
+	r := ginx.New()
 
-	// r.GET("/", func(c *gin.Context) {
-	// 	ginx.ResponseOk(c, "Hello, World!")
-	// })
+	r.GET("/", func(c *gin.Context) {
+		ginx.ResponseOk(c, "Hello, World!")
+	})
 
-	// server.Run(cfg.Server, r)
+	server.Run(cfg.Server, r)
 }
